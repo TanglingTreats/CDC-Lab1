@@ -1,8 +1,9 @@
 package bufferImpl;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
-import com.sun.tools.sjavac.Log;
+//import com.sun.tools.sjavac.Log;
 
 public class BoundedBufferImpl implements BoundedBuffer {
 
@@ -10,6 +11,8 @@ public class BoundedBufferImpl implements BoundedBuffer {
 	private int pointer = -1;
 	private boolean isFull = false;
 	private boolean isEmpty = true;
+	
+	// private static Logger LOGGER = LoggerFactory.getLogger(BoundedBufferImpl.class);
 
 	public BoundedBufferImpl() {
 		buffer = new Object[5];
@@ -29,7 +32,8 @@ public class BoundedBufferImpl implements BoundedBuffer {
 					
 				} catch (InterruptedException e) {
 					Thread.currentThread().interrupt();
-					Log.error("Thread interrupted" + e);
+					//Log.error("Thread interrupted" + e);
+					System.out.println("Thread interrupted" + e);
 				}
 			}
 
@@ -37,7 +41,8 @@ public class BoundedBufferImpl implements BoundedBuffer {
 			System.out.println("Adding object");
 			++pointer;
 			buffer[pointer] = o;
-			if (pointer == buffer.length) {
+			isEmpty=false;
+			if (pointer == buffer.length-1) {
 				this.isFull = true;
 				System.out.println("Buffer full!");
 				buffer.notifyAll();
@@ -55,7 +60,8 @@ public class BoundedBufferImpl implements BoundedBuffer {
 					buffer.wait();
 				} catch (InterruptedException e) {
 					Thread.currentThread().interrupt();
-					Log.error("Thread interrupted" + e);
+					//Log.error("Thread interrupted" + e);
+					System.out.println("Thread interrupted" + e);
 				}
 			}
 
@@ -65,7 +71,7 @@ public class BoundedBufferImpl implements BoundedBuffer {
 
 			result = this.buffer[0];
 			int size = this.pointer;
-			for (int i = 0; i <= size; i++) {
+			for (int i = 0; i <= size-1; i++) {
 				if (i != size) {
 					buffer[i] = buffer[i + 1];
 				} else {
