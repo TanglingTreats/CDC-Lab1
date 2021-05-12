@@ -33,7 +33,7 @@ public class BoundedBufferImpl implements BoundedBuffer {
 				} catch (InterruptedException e) {
 					Thread.currentThread().interrupt();
 					//Log.error("Thread interrupted" + e);
-					System.out.println("Thread interrupted" + e);
+					System.err.println("Thread interrupted" + e);
 				}
 			}
 
@@ -61,7 +61,7 @@ public class BoundedBufferImpl implements BoundedBuffer {
 				} catch (InterruptedException e) {
 					Thread.currentThread().interrupt();
 					//Log.error("Thread interrupted" + e);
-					System.out.println("Thread interrupted" + e);
+					System.err.println("Thread interrupted" + e);
 				}
 			}
 
